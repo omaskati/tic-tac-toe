@@ -20,7 +20,7 @@ const gameboard = (function(){
         for(let i = 0; i < boardSize; i++){
             let row = [];
             for(let j = 0; j < boardSize; j++){
-                row.push('');
+                row.push(' ');
             }
             board.push(row);
         }
@@ -54,7 +54,7 @@ const gameboard = (function(){
     }
 
     const markSquare = (row, col, symbol) => {
-        if(board[row][col] !== ''){
+        if(board[row][col] !== ' '){
             console.log("That square is taken. Try again");
             return false;
         }
@@ -66,17 +66,17 @@ const gameboard = (function(){
     function checkRow(num){
         return (board[num][0] === board[num][1]) 
                 && (board[num][1] === board[num][2])
-                && (board[num][1] !== '');
+                && (board[num][1] !== ' ');
     }
     
     function checkCol(num){
         return (board[0][num] === board[1][num]) 
                 && (board[1][num] === board[2][num])
-                && (board[1][num] !== '');
+                && (board[1][num] !== ' ');
     }
     
     function checkDiags(){
-        return (board[1][1] !== '') 
+        return (board[1][1] !== ' ') 
                 && ((board[0][0] === board[1][1]) && (board[1][1] === board[2][2]) 
                     || (board[2][0] === board[1][1]) && (board[1][1] === board[0][2])
                     );
@@ -94,9 +94,51 @@ const gameboard = (function(){
         console.table(board);
     }
 
+    const getSquare = (row, col) => {
+        return board[row][col];
+    };
+
     reset();
 
-    return {isEmpty, getSize, setSize, checkWin, markSquare, print, reset};
+    return {isEmpty, getSquare, getSize, setSize, checkWin, markSquare, print, reset};
+})();
+
+const displayController = (function(){
+    const screen = document.getElementById("game-container");
+    for(let i=0; i< gameboard.getSize(); i++){
+
+        let rowDiv = document.createElement("div");
+        rowDiv.classList.add("row");
+
+        for(let j = 0; j < gameboard.getSize(); j++){
+
+            let symbolSpan = document.createElement("span");
+            symbolSpan.classList.add("symbol");
+            symbolSpan.textContent = gameboard.getSquare(i, j);
+            let squareDiv = document.createElement("div");
+            squareDiv.classList.add("square");
+            squareDiv.appendChild(symbolSpan);
+
+            rowDiv.appendChild(squareDiv);
+        }
+        screen.appendChild(rowDiv);
+    }
+
+    //new function that just rewrites to each cell
+    const updateDisplay = function(){
+        let rows = Array.from(screen.querySelectorAll(".row"));
+        console.log(rows);
+        for(let i=0; i< gameboard.getSize(); i++){
+            let squareSymbols = Array.from(rows[i].querySelectorAll(".square>span"));
+            for(let j = 0; j < gameboard.getSize(); j++){
+                squareSymbols[j].textContent = gameboard.getSquare(i, j);
+            }
+        }
+
+    }
+
+    return {updateDisplay};
+
 })();
 
 const game = (function(){
@@ -121,6 +163,7 @@ const game = (function(){
 
             printActivePlayer();
             gameboard.print();
+            displayController.updateDisplay();
         }
     };
 
@@ -142,6 +185,7 @@ const game = (function(){
         } 
         if(gameboard.markSquare(row, col, activePlayer.getSymbol())){
             gameboard.print();
+            displayController.updateDisplay();
             if(round >= gameboard.getSize()*2-1){
                 if(gameboard.checkWin()){
                     gameOn = false;
@@ -163,6 +207,7 @@ const game = (function(){
 
         else{
             gameboard.print();
+            displayController.updateDisplay();
         }
     };
     

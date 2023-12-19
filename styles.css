@@ -1,3 +1,39 @@
 :root{
     background-color: #abcdef;
 }
+
+.container{
+    height: 100vh;
+    min-height: 100%;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}
+
+#game-container{
+    display: grid;
+    width: 500px;
+    height: 500px;
+    background-color: white;
+    grid-template-rows: repeat(auto-fit, minmax(100px,1fr));
+}
+
+.row{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px,1fr));
+    border: 2px solid red;
+    border-collapse: collapse;
+}
+
+.square{
+    border: 1px solid black;
+    border-collapse: collapse;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.symbol{
+    font-size: 4rem;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
