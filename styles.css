@@ -36,4 +36,5 @@
 .symbol{
     font-size: 4rem;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    pointer-events: none;
 }

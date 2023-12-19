@@ -117,16 +117,19 @@ const displayController = (function(){
             symbolSpan.textContent = gameboard.getSquare(i, j);
             let squareDiv = document.createElement("div");
             squareDiv.classList.add("square");
+            squareDiv.setAttribute("data-row", `${i}`);
+            squareDiv.setAttribute("data-col", `${j}`);
             squareDiv.appendChild(symbolSpan);
+
+            addClickHandler(squareDiv);
 
             rowDiv.appendChild(squareDiv);
         }
         screen.appendChild(rowDiv);
     }
-
+    const rows = Array.from(screen.querySelectorAll(".row"));
     //new function that just rewrites to each cell
     const updateDisplay = function(){
-        let rows = Array.from(screen.querySelectorAll(".row"));
         console.log(rows);
         for(let i=0; i< gameboard.getSize(); i++){
             let squareSymbols = Array.from(rows[i].querySelectorAll(".square>span"));
@@ -134,7 +137,19 @@ const displayController = (function(){
                 squareSymbols[j].textContent = gameboard.getSquare(i, j);
             }
         }
+    }
 
+    function clickHandler(event){
+        let square = event.target;
+        let row = square.getAttribute("data-row");
+        let col = square.getAttribute("data-col");
+        console.log(`Row: ${row}, Col: ${col}`);
+
+        game.play(row, col);
+    }
+
+    function addClickHandler(elem){
+        elem.addEventListener("click", clickHandler);
     }
 
     return {updateDisplay};
@@ -211,6 +226,5 @@ const game = (function(){
         }
     };
     
-
     return {start, play};
 })();
