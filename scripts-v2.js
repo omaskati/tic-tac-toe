@@ -171,10 +171,14 @@ const displayController = (function(){
         dialog.showModal();
     }
 
-    const newGame = function(){
+    const endDisplay = function(){
         updateStatus("Good Game!");
         gameBtn.textContent="New Game";
-        gameBtn.disabled = false;
+    }
+
+    const resetDisplay = function(){
+            updateDisplay();
+            updateStatus("Let's Play!");
     }
 
     gameBtn.addEventListener("click", (event)=>{
@@ -193,9 +197,9 @@ const displayController = (function(){
         }
         
         else if(gameBtnFn === "reset"){
-            gameboard.reset();
-            updateDisplay();
-            updateStatus("Let's Play!");
+
+            game.reset();
+            
             gameBtnFn = "start";
             inputs[0].disabled = false;
             inputs[1].disabled = false;
@@ -219,7 +223,7 @@ const displayController = (function(){
         elem.addEventListener("click", clickHandler);
     }
 
-    return {updateDisplay, updateStatus, displayResult, newGame};
+    return {updateDisplay, updateStatus, displayResult, endDisplay, resetDisplay};
 
 })();
 
@@ -277,7 +281,7 @@ const game = (function(){
                     resultMsg = `${activePlayer.getPlayerName()} wins!`;
                     console.log(resultMsg);
                     displayController.displayResult(resultMsg);
-                    displayController.newGame();
+                    displayController.endDisplay();
                     return;
                 }
                 else{
@@ -286,7 +290,7 @@ const game = (function(){
                         resultMsg = `Game is a Draw :/`;
                         console.log(resultMsg);
                         displayController.displayResult(resultMsg);
-                        displayController.newGame();
+                        displayController.endDisplay();
                         return;
                     }
                 }
@@ -302,10 +306,16 @@ const game = (function(){
         }
     };
 
+    const reset = function(){
+        gameOn = false;
+        gameboard.reset();
+        displayController.resetDisplay();
+    }
+
     const setPlayerNames = function(p1, p2){
         player1.setPlayerName(p1);
         player2.setPlayerName(p2);
     };
     
-    return {start, play, setPlayerNames};
+    return {start, play, reset, setPlayerNames};
 })();
