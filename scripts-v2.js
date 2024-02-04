@@ -118,6 +118,9 @@ const displayController = (function(){
     // const gameForm = document.querySelector("form");
     const gameInputs = document.querySelector("#game-inputs");
     const startBtn = document.querySelector("#start-btn");
+    const dialog = document.querySelector("#result-dialog");
+    const statusMsg = document.querySelector("#status-msg");
+
     for(let i=0; i< gameboard.getSize(); i++){
 
         let rowDiv = document.createElement("div");
@@ -152,8 +155,11 @@ const displayController = (function(){
         }
     }
 
+    const updateStatus = function(msg){
+        statusMsg.textContent = msg;
+    }
+
     const displayResult = function(msg){
-        const dialog = document.querySelector("#result-dialog");
         document.querySelector("#result-msg").textContent=msg;
         document.querySelector("#dialog-close").addEventListener("click", () => {
             dialog.close();
@@ -190,7 +196,7 @@ const displayController = (function(){
         elem.addEventListener("click", clickHandler);
     }
 
-    return {updateDisplay, displayResult};
+    return {updateDisplay, updateStatus, displayResult};
 
 })();
 
@@ -215,7 +221,7 @@ const game = (function(){
             activePlayer = player1;
             round = 1;
 
-            printActivePlayer();
+            updateGameStatus();
             gameboard.print();
             displayController.updateDisplay();
         }
@@ -228,8 +234,10 @@ const game = (function(){
         else activePlayer = player1;
     };
 
-    const printActivePlayer = function(){
-        console.log(`It's ${activePlayer.getPlayerName()}'s turn!`);
+    const updateGameStatus = function(){
+        let statusMsg = `${activePlayer.getPlayerName()}'s turn`;
+        displayController.updateStatus(statusMsg);
+        console.log(statusMsg);
     }
 
     const play = function(row, col){
@@ -245,6 +253,7 @@ const game = (function(){
                     gameOn = false;
                     resultMsg = `${activePlayer.getPlayerName()} wins!`;
                     console.log(resultMsg);
+                    displayController.updateStatus("Good Game!");
                     displayController.displayResult(resultMsg);
                     return;
                 }
@@ -253,13 +262,14 @@ const game = (function(){
                         gameOn = false;
                         resultMsg = `Game is a Draw :/`;
                         console.log(resultMsg);
+                        displayController.updateStatus("Good Game!");
                         displayController.displayResult(resultMsg);
                         return;
                     }
                 }
             }
             switchPlayer();
-            printActivePlayer();
+            updateGameStatus();
             round++;
         }
 
