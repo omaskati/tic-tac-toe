@@ -14,11 +14,17 @@ const createPlayer = function(id, symbol, type){
         return symbol;
     };
 
+    const setSymbol =function(pSymbol){
+        if(pSymbol === "") return;
+        symbol = pSymbol;
+        setPlayerName(`Player ${symbol}`);
+    }
+
     const getID = function(){
         return id;
     }
 
-    return {getID, getPlayerName, setPlayerName, getSymbol, type};
+    return {getID, getPlayerName, setPlayerName, getSymbol, setSymbol, type};
 }
 
 const gameboard = (function(){
@@ -192,6 +198,7 @@ const displayController = (function(){
         if(gameBtnFn === "start"){
 
             game.setPlayerNames(inputs[0].value,inputs[1].value);
+            game.setPlayerSymbols("X", "O");
             game.start();
             
             inputs[0].disabled = true;
@@ -321,6 +328,11 @@ const game = (function(){
         player1.setPlayerName(p1);
         player2.setPlayerName(p2);
     };
+
+    const setPlayerSymbols = function(s1,s2){
+        player1.setSymbol(s1);
+        player2.setSymbol(s2);
+    }
     
-    return {start, play, reset, setPlayerNames};
+    return {start, play, reset, setPlayerNames, setPlayerSymbols};
 })();
