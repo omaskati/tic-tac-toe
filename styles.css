@@ -65,10 +65,9 @@ h3{
 #game-inputs{
     width: 100%;
     padding: 10px;
-    > form {
-        display: grid;
-        gap: 5px;
-        grid-template-columns: 1fr 1fr 1fr;
+    display: grid;
+    gap: 5px;
+    grid-template-columns: 1fr 1fr 1fr;
 
         > *{
             display:grid;
@@ -82,5 +81,4 @@ h3{
         #playerO-input{
             grid-column-start: 3;
         }
-    }
 }

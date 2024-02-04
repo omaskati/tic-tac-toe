@@ -115,7 +115,9 @@ const gameboard = (function(){
 
 const displayController = (function(){
     const screen = document.getElementById("game-container");
-    const gameForm = document.querySelector("form");
+    // const gameForm = document.querySelector("form");
+    const gameInputs = document.querySelector("#game-inputs");
+    const startBtn = document.querySelector("#start-btn");
     for(let i=0; i< gameboard.getSize(); i++){
 
         let rowDiv = document.createElement("div");
@@ -159,15 +161,21 @@ const displayController = (function(){
         dialog.showModal();
     }
 
-    gameForm.addEventListener("submit", (event)=>{
+    startBtn.addEventListener("click", (event)=>{
         event.preventDefault();
-        let pXName = event.target.querySelector("input#playerX").value;
-        let pOName = event.target.querySelector("input#playerO").value;
-
-        game.setPlayerNames(pXName, pOName);
-        game.start();
+        let inputs = gameInputs.getElementsByTagName("input");
+        // let pXName = event.target.querySelector("input#playerX");
+        // let pOName = event.target.querySelector("input#playerO");
         
+        
+        game.setPlayerNames(inputs[0].value,inputs[1].value);
+        game.start();
+        event.target.disabled = true;
+        inputs[0].disabled = true;
+        inputs[1].disabled = true;    
     });
+
+
 
     function clickHandler(event){
         let square = event.target;
