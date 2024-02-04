@@ -1,14 +1,24 @@
 
 const createPlayer = function(id, symbol, type){
 
+    let name = `Player ${symbol}`;
     const getPlayerName = function(){
-        return `Player${id}`;
+        return name;
     };
+
+    const setPlayerName =function(pName){
+        if(pName === "") return;
+        name = pName;
+    }
     const getSymbol = function(){
         return symbol;
     };
 
-    return {id, getPlayerName, getSymbol, type};
+    const getID = function(){
+        return id;
+    }
+
+    return {getID, getPlayerName, setPlayerName, getSymbol, type};
 }
 
 const gameboard = (function(){
@@ -105,6 +115,7 @@ const gameboard = (function(){
 
 const displayController = (function(){
     const screen = document.getElementById("game-container");
+    const gameForm = document.querySelector("form");
     for(let i=0; i< gameboard.getSize(); i++){
 
         let rowDiv = document.createElement("div");
@@ -138,6 +149,16 @@ const displayController = (function(){
             }
         }
     }
+
+    gameForm.addEventListener("submit", (event)=>{
+        event.preventDefault();
+        let pXName = event.target.querySelector("input#playerX").value;
+        let pOName = event.target.querySelector("input#playerO").value;
+
+        game.setPlayerNames(pXName, pOName);
+        game.start();
+        
+    });
 
     function clickHandler(event){
         let square = event.target;
@@ -183,7 +204,7 @@ const game = (function(){
     };
 
     const switchPlayer = function(){
-        if(activePlayer.id === 1){
+        if(activePlayer.getID() === 1){
             activePlayer = player2;
         }
         else activePlayer = player1;
@@ -225,6 +246,11 @@ const game = (function(){
             displayController.updateDisplay();
         }
     };
+
+    const setPlayerNames = function(p1, p2){
+        player1.setPlayerName(p1);
+        player2.setPlayerName(p2);
+    };
     
-    return {start, play};
+    return {start, play, setPlayerNames};
 })();

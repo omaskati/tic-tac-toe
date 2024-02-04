@@ -4,15 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic Tac Toe</title>
-    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="meyer-reset.css">
+    <link rel="stylesheet" href="styles.css">
     <script src="scripts-v2.js" defer></script>
 </head>
 <body>
     <div class="container">
-        <div id="game-container">
-            
+        <div class="headings">
+            <h1>Tic-Tac-TOP</h1>
+            <h2>An Odin Project assignment</h2>
+            <h3>A Two-Player Game</h3>
         </div>
+        <div id="game-inputs">
+            <form>
+                <label for="playerX">Enter Player X's name: </label>
+                <input type="text" name="playerX" id="playerX" placeholder="Player X">
+                <label for="playerO">Enter Player O's name: </label>
+                <input type="text" name="playerO" id="playerO" placeholder="Player O">
+                <button type="submit">Start Game</button>
+            </form>
+        </div>
+        <div id="game-container"></div>
     </div>
 </body>
 </html>
