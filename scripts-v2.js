@@ -174,7 +174,6 @@ const displayController = (function(){
     const newGame = function(){
         updateStatus("Good Game!");
         gameBtn.textContent="New Game";
-        gameBtnFn = "reset";
         gameBtn.disabled = false;
     }
 
@@ -185,9 +184,11 @@ const displayController = (function(){
 
             game.setPlayerNames(inputs[0].value,inputs[1].value);
             game.start();
-            event.target.disabled = true;
+            
             inputs[0].disabled = true;
             inputs[1].disabled = true;
+            event.target.textContent = "Reset Game";
+            gameBtnFn = "reset";
 
         }
         
