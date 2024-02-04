@@ -128,6 +128,8 @@ const displayController = (function(){
     const gameBtn = document.querySelector("#game-btn");
     const dialog = document.querySelector("#result-dialog");
     const statusMsg = document.querySelector("#status-msg");
+    const xSymbols = document.querySelector("#playerX-symbols");
+    const oSymbols = document.querySelector("#playerO-symbols");
 
     let gameBtnFn = "start";
 
@@ -192,17 +194,31 @@ const displayController = (function(){
             updateStatus("Let's Play!");
     }
 
+
+
     gameBtn.addEventListener("click", (event)=>{
         event.preventDefault();
         let inputs = gameInputs.getElementsByTagName("input");
+        let xSymbol = xSymbols.getElementsByClassName("selected");
+        let oSymbol = oSymbols.getElementsByClassName("selected");
         if(gameBtnFn === "start"){
 
+            if(oSymbol.length + xSymbol.length < 2){
+                console.log("symbols not selected");
+                return;
+            }
+
+            game.setPlayerSymbols(xSymbol[0].innerHTML, oSymbol[0].innerHTML);
             game.setPlayerNames(inputs[0].value,inputs[1].value);
-            game.setPlayerSymbols("X", "O");
             game.start();
             
             inputs[0].disabled = true;
             inputs[1].disabled = true;
+            for(let i = 0; i<5; i++){
+                xSymbols.getElementsByTagName("button")[i].disabled = true;
+                oSymbols.getElementsByTagName("button")[i].disabled = true;
+            }
+
             event.target.textContent = "Reset Game";
             gameBtnFn = "reset";
 
@@ -215,10 +231,49 @@ const displayController = (function(){
             gameBtnFn = "start";
             inputs[0].disabled = false;
             inputs[1].disabled = false;
+            for(let i = 0; i<5; i++){
+                xSymbols.getElementsByTagName("button")[i].disabled = false;
+                oSymbols.getElementsByTagName("button")[i].disabled = false;
+            }
             event.target.textContent = "Start Game";
 
         }
     });
+
+    for(let i=0; i<5; i++){
+        xSymbols.getElementsByTagName("button")[i].onclick = symbolSelectHandler;
+        oSymbols.getElementsByTagName("button")[i].onclick = symbolSelectHandler;
+    }
+
+    function symbolSelectHandler(event){
+        let symBtn = event.target;
+        if(symBtn.parentElement.id === "playerX-symbols"){
+            let selectedBtn = xSymbols.getElementsByClassName("selected");
+            if(selectedBtn.length>0) selectedBtn.item(0).classList.remove("selected");
+            checkSelectedSymbols(symBtn.innerHTML, oSymbols);
+        }
+
+        else{
+            let selectedBtn = oSymbols.getElementsByClassName("selected");
+            if(selectedBtn.length>0) selectedBtn.item(0).classList.remove("selected");
+            checkSelectedSymbols(symBtn.innerHTML, xSymbols);
+        }
+        symBtn.classList.add("selected");
+    }
+
+    const checkSelectedSymbols = function(symbol, opponentSymbols){
+        //make this a callback fxn for a click on a symbol button
+        //if all btns with same class (e.g. btn-X) are selected, then deselect the other one?
+        //have to figure out how to deselct the right one...
+        //OR
+        //If selected button. textContent == other btn group selected
+        let oppSelected = opponentSymbols.getElementsByClassName("selected");
+        if(oppSelected.length > 0){
+            if(symbol === oppSelected.item(0).innerHTML){
+                oppSelected.item(0).classList.remove("selected");
+            }
+        }
+    }
 
 
 

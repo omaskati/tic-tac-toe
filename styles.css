@@ -14,6 +14,10 @@ button, input{
     font-size: 1em;
 }
 
+button{
+    cursor: pointer;
+}
+
 .container{
     height: 100vh;
     min-height: 100%;
@@ -132,6 +136,10 @@ h3{
     }
 }
 
-.smiley{
+.btn-smiley{
     transform: rotate(90deg);
+}
+
+button.selected{
+    background-color: rgb(255, 197, 197);
 }
