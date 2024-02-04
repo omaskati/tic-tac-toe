@@ -61,3 +61,26 @@ h3{
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     pointer-events: none;
 }
+
+#game-inputs{
+    width: 100%;
+    padding: 10px;
+    > form {
+        display: grid;
+        gap: 5px;
+        grid-template-columns: 1fr 1fr 1fr;
+
+        > *{
+            display:grid;
+            align-items: center;
+        }
+
+        button{
+            grid-column-start: 2;
+        }
+
+        #playerO-input{
+            grid-column-start: 3;
+        }
+    }
+}
