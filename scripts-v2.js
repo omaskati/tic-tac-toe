@@ -195,6 +195,7 @@ const displayController = (function(){
         else if(gameBtnFn === "reset"){
             gameboard.reset();
             updateDisplay();
+            updateStatus("Let's Play!");
             gameBtnFn = "start";
             inputs[0].disabled = false;
             inputs[1].disabled = false;
