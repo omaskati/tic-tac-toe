@@ -129,6 +129,7 @@ const displayController = (function(){
 
         let rowDiv = document.createElement("div");
         rowDiv.classList.add("row");
+        if(i === gameboard.getSize()-1) rowDiv.classList.add("last-row");
 
         for(let j = 0; j < gameboard.getSize(); j++){
 
@@ -137,6 +138,8 @@ const displayController = (function(){
             symbolSpan.textContent = gameboard.getSquare(i, j);
             let squareDiv = document.createElement("div");
             squareDiv.classList.add("square");
+            if(i === 0) squareDiv.classList.add("first-row");
+            if(j === gameboard.getSize()-1) squareDiv.classList.add("last-col");
             squareDiv.setAttribute("data-row", `${i}`);
             squareDiv.setAttribute("data-col", `${j}`);
             squareDiv.appendChild(symbolSpan);
@@ -199,7 +202,7 @@ const displayController = (function(){
         else if(gameBtnFn === "reset"){
 
             game.reset();
-            
+
             gameBtnFn = "start";
             inputs[0].disabled = false;
             inputs[1].disabled = false;

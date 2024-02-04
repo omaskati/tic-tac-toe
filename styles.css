@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
+
 :root{
     background-color: #abcdef;
 
@@ -37,28 +39,47 @@ h3{
     display: grid;
     width: 500px;
     height: 500px;
-    background-color: white;
     grid-template-rows: repeat(auto-fit, minmax(100px,1fr));
 }
 
 .row{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px,1fr));
-    border: 2px solid red;
-    border-collapse: collapse;
+    background:transparent;
+      border-top-left-radius: 255px 15px;
+      border-top-right-radius: 15px 225px;
+      border-bottom-right-radius: 225px 15px;
+      border-bottom-left-radius:125px 15px;
+
+      border-bottom: solid 3px #41403E;
+}
+
+.row.last-row{
+    border-bottom: none;
 }
 
 .square{
-    border: 1px solid black;
-    border-collapse: collapse;
+    border-top-left-radius: 255px 15px;
+    border-bottom-left-radius:15px 255px;
+
+    border-right: solid 3px #41403E;
+    
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+.square.first-row{
+    border-top-right-radius: 15px 225px;
+}
+
+.square.last-col{
+    border-right: none;
+}
+
 .symbol{
     font-size: 4rem;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Architects Daughter', cursive;
     pointer-events: none;
 }
 
