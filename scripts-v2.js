@@ -139,6 +139,8 @@ const displayController = (function(){
             let squareDiv = document.createElement("div");
             squareDiv.classList.add("square");
             if(i === 0) squareDiv.classList.add("first-row");
+            if(j === 0) squareDiv.classList.add("first-col");
+            if(i === gameboard.getSize()-1) squareDiv.classList.add("last-row");
             if(j === gameboard.getSize()-1) squareDiv.classList.add("last-col");
             squareDiv.setAttribute("data-row", `${i}`);
             squareDiv.setAttribute("data-col", `${j}`);

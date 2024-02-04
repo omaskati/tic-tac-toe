@@ -5,13 +5,20 @@
 
     --board-width: 500px;
 
+    font-family: 'Architects Daughter', cursive;
+
+}
+
+button, input{
+    font-family: 'Architects Daughter', cursive;
+    font-size: 1em;
 }
 
 .container{
     height: 100vh;
     min-height: 100%;
     width: var(--board-width);
-    margin: 0 auto;
+    margin: 10px auto 0 auto;
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
@@ -20,7 +27,6 @@
 
 .headings{
     text-align:center;
-    margin-bottom: 20px;
 }
 
 h1{
@@ -73,19 +79,23 @@ h3{
     border-top-right-radius: 15px 225px;
 }
 
+.square.last-row{
+    border-bottom-right-radius: 8px 225px;
+}
+
 .square.last-col{
     border-right: none;
 }
 
 .symbol{
-    font-size: 4rem;
+    font-size: 5.5rem;
     font-family: 'Architects Daughter', cursive;
     pointer-events: none;
 }
 
 #game-inputs{
     width: 100%;
-    padding: 10px;
+    padding-bottom: 10px;
     display: grid;
     gap: 5px;
     grid-template-columns: 1fr 1fr 1fr;
@@ -102,4 +112,8 @@ h3{
         #playerO-input{
             grid-column-start: 3;
         }
+}
+
+#status{
+    margin: 10px 0 20px 0;
 }
