@@ -150,6 +150,15 @@ const displayController = (function(){
         }
     }
 
+    const displayResult = function(msg){
+        const dialog = document.querySelector("#result-dialog");
+        document.querySelector("#result-msg").textContent=msg;
+        document.querySelector("#dialog-close").addEventListener("click", () => {
+            dialog.close();
+          });
+        dialog.showModal();
+    }
+
     gameForm.addEventListener("submit", (event)=>{
         event.preventDefault();
         let pXName = event.target.querySelector("input#playerX").value;
@@ -173,7 +182,7 @@ const displayController = (function(){
         elem.addEventListener("click", clickHandler);
     }
 
-    return {updateDisplay};
+    return {updateDisplay, displayResult};
 
 })();
 
@@ -181,6 +190,7 @@ const game = (function(){
 
     let gameOn = false;
     let activePlayer = null;
+    let resultMsg = "";
     let round = 0;
 
     const player1 = createPlayer(1, "X", "user");
@@ -225,13 +235,17 @@ const game = (function(){
             if(round >= gameboard.getSize()*2-1){
                 if(gameboard.checkWin()){
                     gameOn = false;
-                    console.log(`${activePlayer.getPlayerName()} wins!`);
+                    resultMsg = `${activePlayer.getPlayerName()} wins!`;
+                    console.log(resultMsg);
+                    displayController.displayResult(resultMsg);
                     return;
                 }
                 else{
                     if(round === gameboard.getSize()*gameboard.getSize()){
                         gameOn = false;
-                        console.log(`Game is a Draw :/`);
+                        resultMsg = `Game is a Draw :/`;
+                        console.log(resultMsg);
+                        displayController.displayResult(resultMsg);
                         return;
                     }
                 }
