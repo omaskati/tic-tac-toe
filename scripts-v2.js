@@ -114,12 +114,16 @@ const gameboard = (function(){
 })();
 
 const displayController = (function(){
+
+
     const screen = document.getElementById("game-container");
     // const gameForm = document.querySelector("form");
     const gameInputs = document.querySelector("#game-inputs");
-    const startBtn = document.querySelector("#start-btn");
+    const gameBtn = document.querySelector("#game-btn");
     const dialog = document.querySelector("#result-dialog");
     const statusMsg = document.querySelector("#status-msg");
+
+    let gameBtnFn = "start";
 
     for(let i=0; i< gameboard.getSize(); i++){
 
@@ -167,18 +171,35 @@ const displayController = (function(){
         dialog.showModal();
     }
 
-    startBtn.addEventListener("click", (event)=>{
+    const newGame = function(){
+        updateStatus("Good Game!");
+        gameBtn.textContent="New Game";
+        gameBtnFn = "reset";
+        gameBtn.disabled = false;
+    }
+
+    gameBtn.addEventListener("click", (event)=>{
         event.preventDefault();
         let inputs = gameInputs.getElementsByTagName("input");
-        // let pXName = event.target.querySelector("input#playerX");
-        // let pOName = event.target.querySelector("input#playerO");
+        if(gameBtnFn === "start"){
+
+            game.setPlayerNames(inputs[0].value,inputs[1].value);
+            game.start();
+            event.target.disabled = true;
+            inputs[0].disabled = true;
+            inputs[1].disabled = true;
+
+        }
         
-        
-        game.setPlayerNames(inputs[0].value,inputs[1].value);
-        game.start();
-        event.target.disabled = true;
-        inputs[0].disabled = true;
-        inputs[1].disabled = true;    
+        else if(gameBtnFn === "reset"){
+            gameboard.reset();
+            updateDisplay();
+            gameBtnFn = "start";
+            inputs[0].disabled = false;
+            inputs[1].disabled = false;
+            event.target.textContent = "Start Game";
+
+        }
     });
 
 
@@ -196,7 +217,7 @@ const displayController = (function(){
         elem.addEventListener("click", clickHandler);
     }
 
-    return {updateDisplay, updateStatus, displayResult};
+    return {updateDisplay, updateStatus, displayResult, newGame};
 
 })();
 
@@ -253,8 +274,8 @@ const game = (function(){
                     gameOn = false;
                     resultMsg = `${activePlayer.getPlayerName()} wins!`;
                     console.log(resultMsg);
-                    displayController.updateStatus("Good Game!");
                     displayController.displayResult(resultMsg);
+                    displayController.newGame();
                     return;
                 }
                 else{
@@ -262,8 +283,8 @@ const game = (function(){
                         gameOn = false;
                         resultMsg = `Game is a Draw :/`;
                         console.log(resultMsg);
-                        displayController.updateStatus("Good Game!");
                         displayController.displayResult(resultMsg);
+                        displayController.newGame();
                         return;
                     }
                 }
