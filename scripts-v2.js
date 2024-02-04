@@ -165,17 +165,17 @@ const displayController = (function(){
         for(let i=0; i< gameboard.getSize(); i++){
             let squareSymbols = Array.from(rows[i].querySelectorAll(".square>span"));
             for(let j = 0; j < gameboard.getSize(); j++){
-                squareSymbols[j].textContent = gameboard.getSquare(i, j);
+                squareSymbols[j].innerHTML = gameboard.getSquare(i, j);
             }
         }
     }
 
     const updateStatus = function(msg){
-        statusMsg.textContent = msg;
+        statusMsg.innerHTML = msg;
     }
 
     const displayResult = function(msg){
-        document.querySelector("#result-msg").textContent=msg;
+        document.querySelector("#result-msg").innerHTML=msg;
         document.querySelector("#dialog-close").addEventListener("click", () => {
             dialog.close();
           });
