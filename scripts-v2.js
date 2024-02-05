@@ -413,7 +413,10 @@ const game = (function(){
             if(round >= gameboard.getSize()*2-1){
                 if(gameboard.checkWin()){
                     gameOn = false;
-                    resultMsg = `${activePlayer.getPlayerName()} wins!`;
+                    if(activePlayer.getPlayerName() === "Player =)"){
+                        resultMsg = `Player ${smileyface} wins!`;
+                    }
+                    else resultMsg = `${activePlayer.getPlayerName()} wins!`;
                     console.log(resultMsg);
                     displayController.displayResult(resultMsg);
                     displayController.endDisplay();
