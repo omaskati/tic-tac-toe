@@ -123,13 +123,23 @@ const displayController = (function(){
 
 
     const screen = document.getElementById("game-container");
-    // const gameForm = document.querySelector("form");
     const gameInputs = document.querySelector("#game-inputs");
     const gameBtn = document.querySelector("#game-btn");
     const dialog = document.querySelector("#result-dialog");
     const statusMsg = document.querySelector("#status-msg");
-    const xSymbols = document.querySelector("#playerX-symbols");
-    const oSymbols = document.querySelector("#playerO-symbols");
+    const symbols1 = document.querySelector("#player1-symbols");
+    const symbols2 = document.querySelector("#player2-symbols");
+
+    const player1Symbols = [{char: "X", class: ["selected"]},
+                            {char: "O", class: []},
+                            {char: "*", class: []},
+                            {char: "=)", class: ["btn-smiley"]},
+                            {char: "&hearts;", class: []}];
+    const player2Symbols = [{char: "O", class: ["selected"]},
+                            {char: "X", class: []},
+                            {char: "*", class: []},
+                            {char: "=)", class: ["btn-smiley"]},
+                            {char: "&hearts;", class: []}];
 
     let gameBtnFn = "start";
 
@@ -160,6 +170,24 @@ const displayController = (function(){
         }
         screen.appendChild(rowDiv);
     }
+    //init Symbol buttons
+    const initSymbols = function(symbols, parentElem){
+        console.log("initting symbols");
+        let index = 0;
+       symbols.forEach(symbol => {
+            let symBtn = document.createElement("button");
+            symbol.class.forEach(classname =>{
+                symBtn.classList.add(classname);
+            });
+            symBtn.value = symBtn.innerHTML = symbol.char;
+            symBtn.setAttribute("data-index", index);
+            index++;
+            parentElem.appendChild(symBtn);
+        });
+    }
+    initSymbols(player1Symbols, symbols1);
+    initSymbols(player2Symbols, symbols2);
+
     const rows = Array.from(screen.querySelectorAll(".row"));
     //new function that just rewrites to each cell
     const updateDisplay = function(){
@@ -199,24 +227,24 @@ const displayController = (function(){
     gameBtn.addEventListener("click", (event)=>{
         event.preventDefault();
         let inputs = gameInputs.getElementsByTagName("input");
-        let xSymbol = xSymbols.getElementsByClassName("selected");
-        let oSymbol = oSymbols.getElementsByClassName("selected");
+        let p1Symbol = symbols1.getElementsByClassName("selected");
+        let p2Symbol = symbols2.getElementsByClassName("selected");
         if(gameBtnFn === "start"){
 
-            if(oSymbol.length + xSymbol.length < 2){
+            if(p2Symbol.length + p1Symbol.length < 2){
                 console.log("symbols not selected");
                 return;
             }
 
-            game.setPlayerSymbols(xSymbol[0].innerHTML, oSymbol[0].innerHTML);
+            game.setPlayerSymbols(p1Symbol[0].value, p2Symbol[0].value); //changed from innerhtml to value, does this work?
             game.setPlayerNames(inputs[0].value,inputs[1].value);
             game.start();
             
             inputs[0].disabled = true;
             inputs[1].disabled = true;
             for(let i = 0; i<5; i++){
-                xSymbols.getElementsByTagName("button")[i].disabled = true;
-                oSymbols.getElementsByTagName("button")[i].disabled = true;
+                symbols1.getElementsByTagName("button")[i].disabled = true;
+                symbols2.getElementsByTagName("button")[i].disabled = true;
             }
 
             event.target.textContent = "Reset Game";
@@ -232,8 +260,8 @@ const displayController = (function(){
             inputs[0].disabled = false;
             inputs[1].disabled = false;
             for(let i = 0; i<5; i++){
-                xSymbols.getElementsByTagName("button")[i].disabled = false;
-                oSymbols.getElementsByTagName("button")[i].disabled = false;
+                symbols1.getElementsByTagName("button")[i].disabled = false;
+                symbols2.getElementsByTagName("button")[i].disabled = false;
             }
             event.target.textContent = "Start Game";
 
@@ -241,25 +269,59 @@ const displayController = (function(){
     });
 
     for(let i=0; i<5; i++){
-        xSymbols.getElementsByTagName("button")[i].onclick = symbolSelectHandler;
-        oSymbols.getElementsByTagName("button")[i].onclick = symbolSelectHandler;
+        symbols1.getElementsByTagName("button")[i].onclick = symbolSelectHandler;
+        symbols2.getElementsByTagName("button")[i].onclick = symbolSelectHandler;
     }
 
     function symbolSelectHandler(event){
+
         let symBtn = event.target;
-        if(symBtn.parentElement.id === "playerX-symbols"){
-            let selectedBtn = xSymbols.getElementsByClassName("selected");
-            if(selectedBtn.length>0) selectedBtn.item(0).classList.remove("selected");
-            checkSelectedSymbols(symBtn.innerHTML, oSymbols);
+        if(symBtn.parentElement.id === "player1-symbols"){
+            if(game.setPlayer1Symbol(symBtn.value)){
+                let selectedBtn = symbols1.getElementsByClassName("selected");
+                if(selectedBtn.length>0) selectedBtn.item(0).classList.remove("selected");
+            }
         }
 
         else{
-            let selectedBtn = oSymbols.getElementsByClassName("selected");
-            if(selectedBtn.length>0) selectedBtn.item(0).classList.remove("selected");
-            checkSelectedSymbols(symBtn.innerHTML, xSymbols);
+            if(game.setPlayer2Symbol(symBtn.value)){
+                let selectedBtn = symbols2.getElementsByClassName("selected");
+                if(selectedBtn.length>0) selectedBtn.item(0).classList.remove("selected");
+            }
         }
         symBtn.classList.add("selected");
+
+        //DOM SOLUTION
+        // let symBtn = event.target;
+        // if(symBtn.parentElement.id === "player1-symbols"){
+        //     let selectedBtn = symbols1.getElementsByClassName("selected");
+        //     if(selectedBtn.length>0) selectedBtn.item(0).classList.remove("selected");
+        //     checkSelectedSymbols(symBtn.innerHTML, symbols2);
+        // }
+
+        // else{
+        //     let selectedBtn = symbols2.getElementsByClassName("selected");
+        //     if(selectedBtn.length>0) selectedBtn.item(0).classList.remove("selected");
+        //     checkSelectedSymbols(symBtn.innerHTML, symbols1);
+        // }
+        // symBtn.classList.add("selected");
     }
+
+    const updateSymbol = function(playerID, symbol){
+        let symbols = symbols1;
+        if(playerID === 2){
+            symbols = symbols2;
+        }else;
+
+        for(let i = 0; i< symbols.childElementCount; i++){
+            let symBtn = symbols.children.item(i);
+            
+            if (symBtn.value === symbol){
+                console.log(`clicking the ${symbol} button for Player ${playerID}`);
+                symBtn.click();
+            }
+        }
+    };
 
     const checkSelectedSymbols = function(symbol, opponentSymbols){
         //make this a callback fxn for a click on a symbol button
@@ -275,8 +337,6 @@ const displayController = (function(){
         }
     }
 
-
-
     function clickHandler(event){
         let square = event.target;
         let row = square.getAttribute("data-row");
@@ -290,7 +350,7 @@ const displayController = (function(){
         elem.addEventListener("click", clickHandler);
     }
 
-    return {updateDisplay, updateStatus, displayResult, endDisplay, resetDisplay};
+    return {updateDisplay, updateStatus, updateSymbol, displayResult, endDisplay, resetDisplay};
 
 })();
 
@@ -384,10 +444,57 @@ const game = (function(){
         player2.setPlayerName(p2);
     };
 
+    const setPlayer1Symbol = function(sym){
+        console.log(`Trying to set Player1 symbol to ${sym}`);
+        if(sym === ""){
+            console.log("Players cannot have empty symbols");
+            return false;    
+        }
+        else{
+            let oldSym = player1.getSymbol();
+            console.log(`Setting Player1 symbol to ${sym}`);
+            player1.setSymbol(sym);
+
+            if(player2.getSymbol() === sym){
+                console.log(`But Player1 also has symbol ${sym}`);
+                console.log("Players cannot have same symbol.");
+                player2.setSymbol(oldSym);
+                console.log("Switching Player 2 symbol to " + oldSym);
+                console.log("Updating Player 2 display symbol");
+                displayController.updateSymbol(2, oldSym);
+
+            }
+        } 
+        return true;    
+    }
+
+    const setPlayer2Symbol = function(sym){
+        console.log(`Trying to set Player2 symbol to ${sym}`);
+        if(sym === ""){
+            console.log("Players cannot have empty symbols");
+            return false;    
+        }
+        else{
+            let oldSym = player2.getSymbol();
+            player2.setSymbol(sym);
+            console.log(`Setting Player2 symbol to ${sym}`);
+
+            if(player1.getSymbol() === sym){
+                console.log(`But Player1 also has symbol ${sym}`);
+                console.log("Players cannot have same symbol.");
+                player1.setSymbol(oldSym);
+                console.log("Switching Player 1 symbol to " + oldSym);
+                console.log("Updating Player 1 display symbol");
+                displayController.updateSymbol(1, oldSym);
+            }
+        } 
+        return true;    
+    }
+
     const setPlayerSymbols = function(s1,s2){
-        player1.setSymbol(s1);
-        player2.setSymbol(s2);
+        setPlayer1Symbol(s1);
+        setPlayer2Symbol(s2);
     }
     
-    return {start, play, reset, setPlayerNames, setPlayerSymbols};
+    return {start, play, reset, setPlayerNames, setPlayer1Symbol, setPlayer2Symbol, setPlayerSymbols};
 })();
