@@ -138,6 +138,7 @@ h3{
 
 .btn-smiley{
     transform: rotate(90deg);
+    display: inline-block;
 }
 
 button.selected{

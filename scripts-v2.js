@@ -196,6 +196,9 @@ const displayController = (function(){
             let squareSymbols = Array.from(rows[i].querySelectorAll(".square>span"));
             for(let j = 0; j < gameboard.getSize(); j++){
                 squareSymbols[j].innerHTML = gameboard.getSquare(i, j);
+                if(gameboard.getSquare(i, j) === "=)"){
+                    squareSymbols[j].classList.add("btn-smiley");
+                }
             }
         }
     }
@@ -364,6 +367,8 @@ const game = (function(){
     const player1 = createPlayer(1, "X", "user");
     const player2 = createPlayer(2, "O", "user");
 
+    let smileyface = "<span class='btn-smiley'>=)</span>";
+
     const start = function(){
         if(gameOn){
             console.log("Game has already started!");
@@ -390,6 +395,9 @@ const game = (function(){
 
     const updateGameStatus = function(){
         let statusMsg = `${activePlayer.getPlayerName()}'s turn`;
+        if(activePlayer.getPlayerName() === "Player =)"){
+            statusMsg = `Player ${smileyface}'s turn`;
+        }
         displayController.updateStatus(statusMsg);
         console.log(statusMsg);
     }
