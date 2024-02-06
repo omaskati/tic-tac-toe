@@ -10,38 +10,27 @@
 </head>
 <body>
     <div class="container">
+        <div id="top-container">
         <div class="headings">
             <h1>Tic-Tac-TOP</h1>
-            <h2>An Odin Project assignment</h2>
-            <h3>A Two-Player Game</h3>
+            <h2>An Odin Project Two-Player Game</h2>
         </div>
         <div id="game-inputs">
-            <div id="player1-input">
+            <div class="player-input" id="player1-input">
                 <label for="player1">Player 1 name: </label>
-                <input type="text" name="player1" id="player1" placeholder="Player 1">
+                <input class="player-name" type="text" name="player1" id="player1" tabindex="1" placeholder="Player 1">
                 <div class ="symbol-select" id="player1-symbols">
-                    <!-- <button class="btn-X selected">X</button>
-                    <button class= "btn-O">O</button>
-                    <button class= "btn-*">*</button>
-                    <button class="btn-smiley">=)</button>
-                    <button class= "btn-heart">&hearts;</button> -->
                 </div>
             </div>
-            <div id="player2-input">
+            <div class="player-input" id="player2-input">
                 <label for="player2">Player 2 name: </label>
-                <input type="text" name="player2" id="player2" placeholder="Player 2">
+                <input class="player-name" type="text" name="player2" id="player2" tabindex="1" placeholder="Player 2">
                 <div class ="symbol-select" id="player2-symbols">
-                    <!-- <button class= "btn-O selected">O</button>
-                    <button class="btn-X">X</button>
-                    <button class= "btn-*">*</button>
-                    <button class="btn-smiley">=)</button>
-                    <button class= "btn-heart">&hearts;</button> -->
                 </div>
             </div>
+            <h1 id="status-msg">Let's Play!</h1>
             <button type="button" id="game-btn">Start Game</button>
         </div>
-        <div id="status">
-            <h1 id="status-msg">Let's Play!</h1>
         </div>
         <div id="game-container"></div>
         <dialog id="result-dialog">

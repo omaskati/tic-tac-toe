@@ -1,17 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
 
 :root{
-    background-color: #abcdef;
+    background-color: #fafafa; /* #abcdef;*/
 
-    --board-width: 500px;
+    --board-width: 50%;
 
     font-family: 'Architects Daughter', cursive;
 
 }
 
-button, input{
+button, input, label{
     font-family: 'Architects Daughter', cursive;
-    font-size: 1em;
+    font-size: 1.1em;
 }
 
 button{
@@ -19,14 +19,19 @@ button{
 }
 
 .container{
-    height: 100vh;
+    height: 100lvh;
     min-height: 100%;
     width: var(--board-width);
+    min-width: 500px;
     margin: 10px auto 0 auto;
     display: flex;
     flex-flow: column nowrap;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
+}
+
+#top-container{
+    width:100%;
 }
 
 .headings{
@@ -45,10 +50,21 @@ h3{
     font-size: 1.25rem;
 }
 
+#game-btn{
+    border-radius: 20px;
+    width: 70%;
+    background-color: rgb(177, 227, 189);
+    aspect-ratio: 3.333;
+}
+
+#game-btn:hover{
+    background-color: rgba(177, 227, 189, 0.65);;
+}
+
 #game-container{
     display: grid;
-    width: 500px;
-    height: 500px;
+    width: 70%;
+    aspect-ratio: 1;
     grid-template-rows: repeat(auto-fit, minmax(100px,1fr));
 }
 
@@ -99,23 +115,47 @@ h3{
 
 #game-inputs{
     width: 100%;
-    padding-bottom: 10px;
+    padding: 10px 0;
     display: grid;
-    gap: 5px;
     grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+    column-gap: 10px;
 
-        > *{
-            display:grid;
-            align-items: center;
-            gap:5px;
-        }
+    .player-input{
+        display:grid;
+        width:100%;
+        gap: 2px;
+    }
+
+    .player-name{
+        border-radius: 10px;
+        padding-left: 5px;
+    }
+
+    input#player1{
+        border-color: rgb(255, 197, 197);
+    }
+    input#player2{
+        border-color: rgb(197, 225, 255);
+    }
 
         > button{
             grid-column-start: 2;
         }
 
+        #status-msg{
+            text-align: center;
+            grid-row-start: 1;
+            grid-column-start: 2;
+        }
+
         #player2-input{
             grid-column-start: 3;
+        }
+
+        .symbol-select{
+            width: 100%;
         }
 }
 
@@ -141,6 +181,20 @@ h3{
     display: inline-block;
 }
 
-button.selected{
+.symbol-select{
+    button{
+    background-color: rgb(255,255,197);
+    }
+
+    button:hover{
+        background-color: rgba(205,205,157);
+    }
+}
+
+#player1-input button.selected{
     background-color: rgb(255, 197, 197);
+}
+
+#player2-input button.selected{
+    background-color: rgb(197, 225, 255);
 }
