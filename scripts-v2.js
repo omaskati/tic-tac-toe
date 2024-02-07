@@ -125,6 +125,7 @@ const displayController = (function(){
     const screen = document.getElementById("game-container");
     const gameInputs = document.querySelector("#game-inputs");
     const gameBtn = document.querySelector("#game-btn");
+    const swapBtn = document.querySelector("#swap-players");
     const dialog = document.querySelector("#result-dialog");
     const rematchBtn = document.querySelector("#rematch-btn");
     const statusMsg = document.querySelector("#status-msg");
@@ -208,15 +209,6 @@ const displayController = (function(){
         statusMsg.innerHTML = msg;
     }
 
-    rematchBtn.addEventListener("click",(event) => {
-        event.preventDefault();
-        game.start();
-        gameBtnFn = "reset";
-        gameBtn.textContent = "Reset Game";
-        
-        dialog.close();
-    });
-
     const displayResult = function(msg){
         document.querySelector("#result-msg").innerHTML=msg;
         document.querySelector("#dialog-close").addEventListener("click", () => {
@@ -234,8 +226,48 @@ const displayController = (function(){
             updateDisplay();
             updateStatus("Let's Play!");
     }
+    //EVENT LISTENERS
 
+    rematchBtn.addEventListener("click",(event) => {
+        event.preventDefault();
+        game.start();
+        gameBtnFn = "reset";
+        gameBtn.textContent = "Reset Game";
+        
+        dialog.close();
+    });
 
+    swapBtn.addEventListener("click", (event) =>{
+        event.preventDefault();
+        let inputs = gameInputs.getElementsByTagName("input");
+        let player1Name = inputs[0].value;
+        let player2Name = inputs[1].value;
+        if(player1Name === "" && player2Name === ""){
+            let temp = inputs[0].placeholder;
+            inputs[0].placeholder = inputs[1].placeholder;
+            inputs[1].placeholder = temp;
+        }
+
+        else if(player1Name === ""){
+            let temp = inputs[0].placeholder;
+            inputs[0].value = player2Name;
+            inputs[0].placeholder = inputs[1].placeholder;
+            inputs[1].value = player1Name;
+            inputs[1].placeholder = temp;
+        }
+        else if(player2Name === ""){
+            let temp = inputs[1].placeholder;
+            inputs[1].value = player1Name;
+            inputs[1].placeholder = inputs[0].placeholder;
+            inputs[0].value = player2Name;
+            inputs[0].placeholder = temp;
+        }
+        else{
+            inputs[0].value = player2Name;
+            inputs[1].value = player1Name;
+        }
+        
+    });
 
     gameBtn.addEventListener("click", (event)=>{
         event.preventDefault();
@@ -255,6 +287,7 @@ const displayController = (function(){
             
             inputs[0].disabled = true;
             inputs[1].disabled = true;
+            swapBtn.disabled = true;
             for(let i = 0; i<5; i++){
                 symbols1.getElementsByTagName("button")[i].disabled = true;
                 symbols2.getElementsByTagName("button")[i].disabled = true;
@@ -272,6 +305,7 @@ const displayController = (function(){
             gameBtnFn = "start";
             inputs[0].disabled = false;
             inputs[1].disabled = false;
+            swapBtn.disabled = false;
             for(let i = 0; i<5; i++){
                 symbols1.getElementsByTagName("button")[i].disabled = false;
                 symbols2.getElementsByTagName("button")[i].disabled = false;

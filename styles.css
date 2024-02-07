@@ -6,6 +6,7 @@
     --board-width: 50%;
 
     font-family: 'Architects Daughter', cursive;
+    
 
 }
 
@@ -18,9 +19,12 @@ button{
     cursor: pointer;
 }
 
-.container{
+body{
     height: 100lvh;
-    min-height: 100%;
+}
+
+.container{
+    height: 90%;
     width: var(--board-width);
     min-width: 500px;
     margin: 10px auto 0 auto;
@@ -36,6 +40,7 @@ button{
 
 .headings{
     text-align:center;
+    margin-bottom: 10px;
 }
 
 h1{
@@ -61,7 +66,7 @@ h3{
 }
 
 #game-btn:hover{
-    background-color: rgba(149, 188, 158, 1);
+    background-color: rgb(168, 244, 186);
 }
 
 #game-container{
@@ -131,6 +136,10 @@ h3{
         gap: 2px;
     }
 
+    div#player1-input, div#player2-input{
+        grid-row-start: 2;
+    }
+
     .player-name{
         border-radius: 10px;
         padding-left: 5px;
@@ -143,23 +152,35 @@ h3{
         border-color: rgb(197, 225, 255);
     }
 
-        > button{
+    > button{
             grid-column-start: 2;
-        }
+    }
 
-        #status-msg{
-            text-align: center;
-            grid-row-start: 1;
-            grid-column-start: 2;
-        }
+    #swap-players{
+        padding:0 10px;
+        background-color: rgb(246, 209, 176);
+        color: black;
+        font-size: 1.4em;
+        transform: scale(0.85);
+    }
 
-        #player2-input{
-            grid-column-start: 3;
-        }
+    #swap-players:hover{
+        background-color:rgb(246, 186, 136);
+    }
 
-        .symbol-select{
-            width: 100%;
-        }
+    #status-msg{
+        text-align: center;
+        grid-row-start: 2;
+        grid-column-start: 2;
+    }
+
+    #player2-input{
+        grid-column-start: 3;
+    }
+
+    .symbol-select{
+        width: 100%;
+    }
 }
 
 #status{
@@ -190,7 +211,7 @@ h3{
     }
 
     button:hover{
-        background-color: rgba(205,205,157);
+        background-color: rgb(247, 247, 165);
     }
 }
 
