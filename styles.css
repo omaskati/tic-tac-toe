@@ -50,15 +50,18 @@ h3{
     font-size: 1.25rem;
 }
 
-#game-btn{
+.rounded-btn{
     border-radius: 20px;
-    width: 70%;
-    background-color: rgb(177, 227, 189);
     aspect-ratio: 3.333;
 }
 
+#game-btn{
+    width: 70%;
+    background-color: rgb(177, 227, 189);
+}
+
 #game-btn:hover{
-    background-color: rgba(177, 227, 189, 0.65);;
+    background-color: rgba(149, 188, 158, 1);
 }
 
 #game-container{
@@ -197,4 +200,33 @@ h3{
 
 #player2-input button.selected{
     background-color: rgb(197, 225, 255);
+}
+
+#result-dialog{
+    padding: 10px 20px;
+    div{
+        display: grid;
+        gap: 8px;
+    }
+    #dialog-close{
+        position: relative;
+        top: -5px;
+        right: -10px;
+        justify-self: right;
+        font-size: 0.6em;
+    }
+
+    #result-msg{
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    #rematch-btn{
+        background-color: rgb(210, 181, 235);
+        width:fit-content;
+        padding-left: 15px;
+        padding-right: 15px;
+        align-self: center;
+        justify-self: center;
+    }
 }

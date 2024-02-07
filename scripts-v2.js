@@ -126,6 +126,7 @@ const displayController = (function(){
     const gameInputs = document.querySelector("#game-inputs");
     const gameBtn = document.querySelector("#game-btn");
     const dialog = document.querySelector("#result-dialog");
+    const rematchBtn = document.querySelector("#rematch-btn");
     const statusMsg = document.querySelector("#status-msg");
     const symbols1 = document.querySelector("#player1-symbols");
     const symbols2 = document.querySelector("#player2-symbols");
@@ -206,6 +207,15 @@ const displayController = (function(){
     const updateStatus = function(msg){
         statusMsg.innerHTML = msg;
     }
+
+    rematchBtn.addEventListener("click",(event) => {
+        event.preventDefault();
+        game.start();
+        gameBtnFn = "reset";
+        gameBtn.textContent = "Reset Game";
+        
+        dialog.close();
+    });
 
     const displayResult = function(msg){
         document.querySelector("#result-msg").innerHTML=msg;
