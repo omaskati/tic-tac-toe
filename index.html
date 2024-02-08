@@ -16,7 +16,6 @@
             <h2>An Odin Project Two-Player Game</h2>
         </div>
         <div id="game-inputs">
-            <button type="button" class="rounded-btn" id="swap-players">&#8644</button>
             <div class="player-input" id="player1-input">
                 <label for="player1">Player 1 name: </label>
                 <input class="player-name" type="text" name="player1" id="player1" tabindex="1" placeholder="Player 1">
@@ -29,8 +28,14 @@
                 <div class ="symbol-select" id="player2-symbols">
                 </div>
             </div>
-            <h1 id="status-msg">Let's Play!</h1>
-            <button type="button" class="rounded-btn" id="game-btn">Start Game</button>
+            <div id="status">
+                <h1 id="status-msg">Let's Play!</h1>
+            </div>
+            <div id="button-div">
+                <button type="button" class="rounded-btn" id="swap-players">Swap</button> <!--&#8644 : swap icon-->
+                <button type="button" class="rounded-btn" id="game-btn">Start Game</button>
+                <button type="button" class="rounded-btn" id="clear-inputs">Clear</button>
+            </div>
         </div>
         </div>
         <div id="game-container"></div>

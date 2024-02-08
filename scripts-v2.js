@@ -126,8 +126,10 @@ const displayController = (function(){
     const gameInputs = document.querySelector("#game-inputs");
     const gameBtn = document.querySelector("#game-btn");
     const swapBtn = document.querySelector("#swap-players");
+    const clearBtn = document.querySelector("#clear-inputs");
     const dialog = document.querySelector("#result-dialog");
     const rematchBtn = document.querySelector("#rematch-btn");
+    const statusDiv = document.querySelector("#status");
     const statusMsg = document.querySelector("#status-msg");
     const symbols1 = document.querySelector("#player1-symbols");
     const symbols2 = document.querySelector("#player2-symbols");
@@ -205,8 +207,20 @@ const displayController = (function(){
         }
     }
 
-    const updateStatus = function(msg){
+    const updateStatus = function(msg, playerID){
         statusMsg.innerHTML = msg;
+        if(playerID === 1){
+            statusDiv.classList.add("player1");
+            statusDiv.classList.remove("player2");
+        }
+        else if(playerID === 2){
+            statusDiv.classList.add("player2");
+            statusDiv.classList.remove("player1");
+        }
+        else{
+            statusDiv.classList.remove("player1");
+            statusDiv.classList.remove("player2");
+        }
     }
 
     const displayResult = function(msg){
@@ -218,13 +232,13 @@ const displayController = (function(){
     }
 
     const endDisplay = function(){
-        updateStatus("Good Game!");
+        updateStatus("Good Game!", 0);
         gameBtn.textContent="New Game";
     }
 
     const resetDisplay = function(){
             updateDisplay();
-            updateStatus("Let's Play!");
+            updateStatus("Let's Play!", 0);
     }
     //EVENT LISTENERS
 
@@ -232,7 +246,7 @@ const displayController = (function(){
         event.preventDefault();
         game.start();
         gameBtnFn = "reset";
-        gameBtn.textContent = "Reset Game";
+        gameBtn.textContent = "Restart Game";
         
         dialog.close();
     });
@@ -269,6 +283,32 @@ const displayController = (function(){
         
     });
 
+    clearBtn.addEventListener("click", (event) =>{
+        event.preventDefault();
+        game.reset();
+        let inputs = gameInputs.getElementsByTagName("input");
+        inputs[0].placeholder = "Player 1";
+        inputs[1].placeholder = "Player 2";
+        inputs[0].value = "";
+        inputs[1].value = "";
+
+        //reset symbols
+        let player1Syms = Array.from(symbols1.getElementsByTagName("button"));
+        let player2Syms = Array.from(symbols2.getElementsByTagName("button"));
+
+        for(let i = 0; i < player1Syms.length; i++){
+            
+            if(i === 0) {
+                player1Syms[i].classList.add("selected");
+                player2Syms[i].classList.add("selected");
+            }
+            else{
+                player1Syms[i].classList.remove("selected");
+                player2Syms[i].classList.remove("selected");
+            }
+        }
+    });
+
     gameBtn.addEventListener("click", (event)=>{
         event.preventDefault();
         let inputs = gameInputs.getElementsByTagName("input");
@@ -288,12 +328,13 @@ const displayController = (function(){
             inputs[0].disabled = true;
             inputs[1].disabled = true;
             swapBtn.disabled = true;
+            clearBtn.disabled = true;
             for(let i = 0; i<5; i++){
                 symbols1.getElementsByTagName("button")[i].disabled = true;
                 symbols2.getElementsByTagName("button")[i].disabled = true;
             }
 
-            event.target.textContent = "Reset Game";
+            event.target.textContent = "Restart Game";
             gameBtnFn = "reset";
 
         }
@@ -306,6 +347,7 @@ const displayController = (function(){
             inputs[0].disabled = false;
             inputs[1].disabled = false;
             swapBtn.disabled = false;
+            clearBtn.disabled = false;
             for(let i = 0; i<5; i++){
                 symbols1.getElementsByTagName("button")[i].disabled = false;
                 symbols2.getElementsByTagName("button")[i].disabled = false;
@@ -442,7 +484,7 @@ const game = (function(){
         if(activePlayer.getPlayerName() === "Player =)"){
             statusMsg = `Player ${smileyface}'s turn`;
         }
-        displayController.updateStatus(statusMsg);
+        displayController.updateStatus(statusMsg, activePlayer.getID());
         console.log(statusMsg);
     }
 
